@@ -1,0 +1,11 @@
+
+# Compiled object files
+*.o
+
+# Executable files
+/test_logger
+/watchdog
+/workers/worker
+
+# Generated log files
+*.log
