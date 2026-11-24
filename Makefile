@@ -2,7 +2,7 @@
 CC = gcc
 CFLAGS = -std=c11 -D_POSIX_C_SOURCE=200809L -Wall -Wextra -Wpedantic -Iinclude
 
-SOURCES = src/main.c src/signal_manager.c src/process_manager.c src/logger.c
+SOURCES = src/main.c src/signal_manager.c src/process_manager.c src/logger.c src/status_report.c
 
 all: watchdog workers/worker
 

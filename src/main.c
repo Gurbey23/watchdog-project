@@ -14,30 +14,7 @@
 #define SHUTDOWN_TIMEOUT_SEC 5
 #define MONITOR_INTERVAL_US 200000
 
-static void	log_children_status(void)
-{
-	int				count = 0;
-	ChildProcess	*children = get_child_processes(&count);
-	char			msg[256];
 
-	if (children == NULL || count <= 0)
-	{
-		log_event("INFO", "Status report: No child processes registered.");
-		return ;
-	}
-	log_event("INFO", "=== Child Process Status Report ===");
-	for (int i = 0; i < count; i++)
-	{
-		snprintf(msg, sizeof(msg),
-			"Child '%s' | PID: %d | Running: %s | Restarts: %d/%d",
-		children[i].name,
-		(int) children[i].pid,
-		children[i].is_running ? "YES" : "NO",
-		children[i].restart_count,
-		MAX_RESTARTS);
-		log_event("INFO", msg);
-	}
-}
 
 static void	graceful_shutdown(void)
 {
