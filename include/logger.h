@@ -19,4 +19,15 @@ void logger_status(pid_t pid,
 // Closing the log file
 void logger_close(void);
 
+
+int init_logger(const char *filename);
+
+void log_event(const char *level,
+               const char *message);
+
+void log_children_status(void);
+
+void close_logger(void);
+
+
 #endif

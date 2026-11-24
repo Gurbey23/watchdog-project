@@ -2,6 +2,7 @@
 #include "logger.h"
 #include <stdio.h>
 #include <time.h>
+#include <unistd.h>
 
 static FILE *log_file = NULL;
 
@@ -28,7 +29,6 @@ void logger_close(void)
         log_file = NULL;
     }
 }
-
 
 void logger_event(const char *event, pid_t pid,
                   const char *detail)
@@ -61,4 +61,19 @@ void logger_event(const char *event, pid_t pid,
 void logger_status(pid_t pid, const char *status)
 {
     logger_event("STATUS", pid, status);
+}
+
+int init_logger(const char *filename)
+{
+    return logger_init(filename);
+}
+
+void log_event(const char *level, const char *message)
+{
+    logger_event(level, getpid(), message);
+}
+
+void close_logger(void)
+{
+    logger_close();
 }
