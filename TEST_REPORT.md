@@ -40,6 +40,7 @@ test logs and cleans up watchdog processes after testing.
 | TC-05 | Normal child termination | Exit code 0 does not trigger a restart | PASS |
 | TC-06 | Graceful shutdown | Watchdog and running children terminate safely | PASS |
 | TC-07 | Error exit handling | Exit code 1 triggers automatic restart | PASS |
+| TC-08 | SIGINT graceful shutdown | Ctrl+C terminates watchdog and child processes safely | PASS |
 
 ## 5. Manual Integration Testing
 
@@ -52,16 +53,18 @@ The following behaviors were also verified manually:
 - A fourth unexpected termination did not trigger another restart.
 - SIGTERM initiated graceful shutdown.
 - Process inspection confirmed that the tested processes terminated.
+- Ctrl+C (SIGINT) was tested separately.
+- Both worker processes terminated gracefully after Ctrl+C.
 
 ## 6. Test Summary
 
-Total automated test cases: 7
+Total automated test cases: 8
 
-Passed: 7
+Passed: 8
 
 Failed: 0
 
-Result: All seven automated tests passed in the
+Result: All eight automated tests passed in the
 local Ubuntu test environment.
 
 ## 7. Notes

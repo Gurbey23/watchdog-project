@@ -316,3 +316,44 @@ chmod +x "$ERROR_DIR/worker"
 )
 
 echo "Error exit test completed."
+
+
+echo "Starting SIGINT shutdown test..."
+
+SIGINT_DIR="$TEST_DIR/sigint_shutdown"
+mkdir -p "$SIGINT_DIR/workers"
+
+ln -s "$PROJECT_DIR/workers/worker" "$SIGINT_DIR/workers/worker"
+
+(
+    cd "$SIGINT_DIR"
+
+    "$PROJECT_DIR/watchdog" &
+    watchdog_pid=$!
+
+    trap 'kill -TERM "$watchdog_pid" 2>/dev/null || true; wait "$watchdog_pid" 2>/dev/null || true' EXIT
+
+    sleep 2
+
+    echo "Sending SIGINT to watchdog PID: $watchdog_pid"
+    kill -INT "$watchdog_pid"
+
+    if ! wait "$watchdog_pid"; then
+        echo "FAIL: Watchdog did not exit successfully"
+        exit 1
+    fi
+
+    if grep -q "Shutdown signal received" watchdog.log &&
+       grep -q "SIGTERM sent to child 'worker-1'" watchdog.log &&
+       grep -q "SIGTERM sent to child 'worker-2'" watchdog.log &&
+       grep -q "Watchdog shutdown complete" watchdog.log; then
+
+        echo "PASS: SIGINT graceful shutdown completed"
+    else
+        echo "FAIL: SIGINT shutdown failed"
+        tail -n 12 watchdog.log
+        exit 1
+    fi
+)
+
+echo "SIGINT shutdown test completed."
