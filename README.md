@@ -132,7 +132,7 @@ Example log messages:
 Run the independent logger test:
 
 ```bash
-make test_logger
+make test-logger
 ```
 
 ### Automated Integration Tests
@@ -152,8 +152,9 @@ The test script verifies:
 5. Normal exit without restart
 6. Graceful shutdown using SIGTERM
 7. Restart after a non-zero exit code
+8. SIGINT graceful shutdown using Ctrl+C
 
-All seven checks passed during local testing on Ubuntu.
+All eight checks passed during local testing on Ubuntu.
 
 ## Project Structure
 
